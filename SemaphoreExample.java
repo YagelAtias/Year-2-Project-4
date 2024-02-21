@@ -3,7 +3,7 @@ public class SemaphoreExample {
     static class SharedResource{
         private final Semaphore semaphore;
         public SharedResource(int permits){
-            semaphore = new Semaphore(permits);
+            semaphore = new Semaphore(permits,true);
         }
         public void accessResource(){
             try{
@@ -26,7 +26,9 @@ public class SemaphoreExample {
         }
         @Override
         public void run(){
-            sharedResource.accessResource();
+            while (true){
+                sharedResource.accessResource();
+            }
         }
     }
     public static void main(String[] args){

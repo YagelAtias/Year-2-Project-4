@@ -8,9 +8,25 @@ public class SemaphoreExample {
         public void accessResource(){
             try{
                 semaphore.acquire();
+                System.out.println(Thread.currentThread().getName() + "is accessing the resource.");
+                Thread.sleep(1000);
             } catch(InterruptedException e){
-                System.out.println("The thread was interrupted");
+                e.printStackTrace();
+            } finally {
+                System.out.println(Thread.currentThread().getName() + "is releasing the resource.");
+                semaphore.release();
             }
+        }
+    }
+    static class Worker extends Thread{
+        private final SharedResource sharedResource;
+        public Worker(String name, SharedResource sharedResource){
+            super(name);
+            this.sharedResource = sharedResource;
+        }
+        @Override
+        public void run(){
+            sharedResource.accessResource();
         }
     }
 }
